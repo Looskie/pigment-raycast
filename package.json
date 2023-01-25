@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "pigment",
   "title": "Pigment",
-  "description": "Get color value of hex code (Inspired by https://twitter.com/cnrad)",
+  "description": "Get color values of hex codes, HSLs, RGBs, and more! (Inspired by https://twitter.com/cnrad)",
   "icon": "command-icon.png",
   "author": "cody",
   "categories": [
@@ -17,8 +17,8 @@
     {
       "name": "index",
       "title": "Pigment",
-      "subtitle": "Hex code previewer",
-      "description": "Get color value of hex code (Inspired by https://twitter.com/cnrad)",
+      "subtitle": "Color Previewer",
+      "description": "Get color values of hex codes, HSLs, RGBs, and more! (Inspired by https://twitter.com/cnrad)",
       "mode": "view"
     }
   ],
