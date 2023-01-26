@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Cache, Icon, List } from "@raycast/api";
-import { default as color } from "color";
+import Color, { default as color } from "color";
 import { useMemo, useState } from "react";
 import { fetchColor } from "./utils/Color";
 
@@ -33,7 +33,7 @@ export default function Command() {
         {activeColor !== null ? (
           <List.Item
             title={searchText}
-            icon={{ source: Icon.CircleFilled, tintColor: activeColor.hex(), tooltip: "color" }}
+            icon={{ source: Icon.CircleFilled, tintColor: activeColor.hex() }}
             subtitle={activeColor.isDark() ? "(Darker)" : "(Lighter)"}
             actions={
               <ActionPanel>
@@ -57,22 +57,7 @@ export default function Command() {
             detail={
               <List.Item.Detail
                 markdown={`<img src="${fetchColor(activeColor.hex())}" width="100%" height="100%" />`}
-                metadata={
-                  <List.Item.Detail.Metadata>
-                    <List.Item.Detail.Metadata.Label title="Name" text={activeColor.toString()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="Hex" text={activeColor.hex()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="RGB" text={activeColor.rgb().toString()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="HSL" text={activeColor.hsl().toString()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label
-                      title="Dark/Light"
-                      text={activeColor.isDark() ? "Dark" : "Light"}
-                    />
-                  </List.Item.Detail.Metadata>
-                }
+                metadata={<Metadata color={activeColor} />}
               />
             }
           />
@@ -87,39 +72,15 @@ export default function Command() {
             subtitle={color.isDark() ? "(Darker)" : "(Lighter)"}
             actions={
               <ActionPanel>
-                <Action.CopyToClipboard
-                  title="Copy Color (HEX)"
-                  onCopy={() => addColorToLocalStorage(searchText)}
-                  content={color.hex()}
-                />
-                <Action.CopyToClipboard
-                  title="Copy Color (RGB)"
-                  onCopy={() => addColorToLocalStorage(searchText)}
-                  content={color.rgb().toString()}
-                />
-                <Action.CopyToClipboard
-                  title="Copy Color (HSL)"
-                  onCopy={() => addColorToLocalStorage(searchText)}
-                  content={color.hsl().toString()}
-                />
+                <Action.CopyToClipboard title="Copy Color (HEX)" content={color.hex()} />
+                <Action.CopyToClipboard title="Copy Color (RGB)" content={color.rgb().toString()} />
+                <Action.CopyToClipboard title="Copy Color (HSL)" content={color.hsl().toString()} />
               </ActionPanel>
             }
             detail={
               <List.Item.Detail
                 markdown={`<img src="${fetchColor(color.hex())}" width="100%" height="100%" />`}
-                metadata={
-                  <List.Item.Detail.Metadata>
-                    <List.Item.Detail.Metadata.Label title="Name" text={color.toString()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="Hex" text={color.hex()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="RGB" text={color.rgb().toString()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="HSL" text={color.hsl().toString()} />
-                    <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="Dark/Light" text={color.isDark() ? "Dark" : "Light"} />
-                  </List.Item.Detail.Metadata>
-                }
+                metadata={<Metadata color={color} />}
               />
             }
           />
@@ -128,3 +89,19 @@ export default function Command() {
     </List>
   );
 }
+
+const Metadata = ({ color }: { color: Color }) => {
+  return (
+    <List.Item.Detail.Metadata>
+      <List.Item.Detail.Metadata.Label title="Keyword" text={color.keyword()} />
+      <List.Item.Detail.Metadata.Separator />
+      <List.Item.Detail.Metadata.Label title="Hex" text={color.hex()} />
+      <List.Item.Detail.Metadata.Separator />
+      <List.Item.Detail.Metadata.Label title="RGB" text={color.rgb().toString()} />
+      <List.Item.Detail.Metadata.Separator />
+      <List.Item.Detail.Metadata.Label title="HSL" text={color.hsl().toString()} />
+      <List.Item.Detail.Metadata.Separator />
+      <List.Item.Detail.Metadata.Label title="Dark/Light" text={color.isDark() ? "Dark" : "Light"} />
+    </List.Item.Detail.Metadata>
+  );
+};
